@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'github_token', url: 'https://github.com/pramila26/jenkins-example.git'
+                git credentialsId: 'github_token', url: 'git@github.com:pramila26/jenkins-example.git'
             }
         }
 
