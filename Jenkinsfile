@@ -2,43 +2,54 @@ pipeline {
     agent any
 
     environment {
-        PHP_SERVER_IP = '13.201.21.226'
-        PHP_SERVER_PATH = '/var/www/html'
+        // Define your environment variables here, if any
+        GIT_REPO = 'https://github.com/pramila26/jenkins-example.git'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'github_token', url: 'git@github.com:pramila26/jenkins-example.git'
+                // Checkout the code from the repository
+                git branch: 'main', url: "${GIT_REPO}"
             }
         }
 
         stage('Build') {
             steps {
-                script {
-                    echo 'Running build steps...'
-                    // Add build steps if needed
-                }
+                // Example build step: here we assume you might want to run a PHP script or install dependencies
+                echo 'Building the project...'
+                // Add actual build steps here (e.g., running a PHP build, composer install, etc.)
             }
         }
 
         stage('Deploy') {
             steps {
-                sshagent(credentials: ['php-deploy']) {
-                    sh """
-                        scp -r * ubuntu@$PHP_SERVER_IP:$PHP_SERVER_PATH
-                    """
-                }
+                // Example deploy step
+                echo 'Deploying the project...'
+                // Add your deploy steps here (e.g., copying files to the server, etc.)
+            }
+        }
+
+        stage('Post-Build Actions') {
+            steps {
+                echo 'Running post-build actions...'
+                // Example post-build action like cleaning up or notifications
             }
         }
     }
 
     post {
-        success {
-            echo 'Deployment Successful!'
+        always {
+            echo 'Cleaning up...'
+            // Optional: Clean up if required
         }
+
+        success {
+            echo 'Pipeline succeeded!'
+        }
+
         failure {
-            echo 'Deployment Failed!'
+            echo 'Pipeline failed.'
         }
     }
 }
