@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Define your environment variables here, if any
         GIT_REPO = 'https://github.com/pramila26/jenkins-example.git'
-        PHP_SERVER = '13.201.21.226' // Update with actual PHP server IP
+        PHP_SERVER = 'ubuntu@13.201.21.226' // Update with actual PHP server IP
         DEPLOY_PATH = '/var/www/html/jenkins-example/' // Update with your project deployment path
     }
 
