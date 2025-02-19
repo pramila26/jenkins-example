@@ -4,6 +4,8 @@ pipeline {
     environment {
         // Define your environment variables here, if any
         GIT_REPO = 'https://github.com/pramila26/jenkins-example.git'
+        PHP_SERVER = 'ubuntu@13.201.21.226' // Update with actual PHP server IP
+        DEPLOY_PATH = '/var/www/html/jenkins-example/' // Update with your project deployment path
     }
 
     stages {
@@ -27,6 +29,18 @@ pipeline {
                 // Example deploy step
                 echo 'Deploying the project...'
                 // Add your deploy steps here (e.g., copying files to the server, etc.)
+                script {
+                    sshagent(['php-deploy']) {
+                        sh """
+                        ssh -o StrictHostKeyChecking=no $PHP_SERVER '
+                        cd $DEPLOY_PATH &&
+                        git stash &&
+                        git pull origin main &&
+                        git stash pop
+                        '
+                        """
+                    }
+                }
             }
         }
 
