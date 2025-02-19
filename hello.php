@@ -4,7 +4,6 @@
    <h1>My PHP Website</h1>
    <?php
       echo "Hello World!";
-      echo "Hello!!!!!";
    ?>
 </body>
 </html>
