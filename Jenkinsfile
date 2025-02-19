@@ -16,14 +16,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                // Example build step: here we assume you might want to run a PHP script or install dependencies
-                echo 'Building the project...'
-                // Add actual build steps here (e.g., running a PHP build, composer install, etc.)
-            }
-        }
-
         stage('Deploy') {
             steps {
                 // Example deploy step
@@ -41,13 +33,6 @@ pipeline {
                         """
                     }
                 }
-            }
-        }
-
-        stage('Post-Build Actions') {
-            steps {
-                echo 'Running post-build actions...'
-                // Example post-build action like cleaning up or notifications
             }
         }
     }
