@@ -26,9 +26,15 @@ pipeline {
                         sh """
                         ssh -o StrictHostKeyChecking=no $PHP_SERVER '
                         cd $DEPLOY_PATH &&
-                        git stash &&
-                        git pull origin main &&
-                        git stash pop
+
+                        # Stash changes only if there are any changes
+                        git diff-index --quiet HEAD || git stash &&
+                        
+                        # Pull the latest changes from the 'main' branch
+                        git pull origin main || { echo "git pull failed"; exit 1; } &&
+                        
+                        # Apply the stashed changes if any, otherwise print a message
+                        git stash pop || echo "No stashed changes to apply"
                         '
                         """
                     }
