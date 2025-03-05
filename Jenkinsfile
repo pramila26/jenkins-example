@@ -1,11 +1,23 @@
 pipeline {
     agent any
 
+    // Define parameters to make the pipeline customizable
+    parameters {
+        // Define a string parameter for the PHP server IP address
+        string(name: 'PHP_SERVER', defaultValue: 'ubuntu@13.201.21.226', description: 'The PHP Server IP')
+
+        // Define a string parameter for the Git repository URL
+        string(name: 'GIT_REPO', defaultValue: 'https://github.com/pramila26/jenkins-example.git', description: 'The Git Repository URL')
+
+        // Define a string parameter for the deployment path
+        string(name: 'DEPLOY_PATH', defaultValue: '/var/www/html/jenkins-example/', description: 'The deployment path on the PHP server')
+    }
+
     environment {
-        // Define your environment variables here, if any
-        GIT_REPO = 'https://github.com/pramila26/jenkins-example.git'
-        PHP_SERVER = 'ubuntu@65.0.181.127' // Update with actual PHP server IP
-        DEPLOY_PATH = '/var/www/html/jenkins-example/' // Update with your project deployment path
+        // You can still use the parameters in your environment section
+        PHP_SERVER = "${params.PHP_SERVER}"
+        GIT_REPO = "${params.GIT_REPO}"
+        DEPLOY_PATH = "${params.DEPLOY_PATH}"
     }
 
     stages {
@@ -19,8 +31,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Example deploy step
-                echo 'Deploying the project...'
-                // Add your deploy steps here (e.g., copying files to the server, etc.)
+                echo "Deploying the project to $PHP_SERVER at $DEPLOY_PATH..."
                 script {
                     sshagent(['php-deploy']) {
                         sh """
